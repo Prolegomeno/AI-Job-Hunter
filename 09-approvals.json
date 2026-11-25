@@ -1,0 +1,376 @@
+{
+  "name": "AI Job Hunter - Approvals",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Your own address: only replies sent from it count as decisions\nconst MY_ADDRESS = 'your.address@example.com';\n\n// Words that count as an answer (only the first word of the reply is read)\nconst yesWords = ['yes', 'si', 'ok', 'vale'];\nconst noWords = ['no'];\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  const message = item.json;\n\n  // Only your own replies count\n  const from = String(message.From || '').toLowerCase();\n  if (!from.includes(MY_ADDRESS)) continue;\n\n  // The first word you typed: lower case, accents and punctuation removed (\"Sí.\" becomes \"si\")\n  const firstWord = String(message.snippet || '')\n    .trim()\n    .split(/\\s+/)[0]\n    .normalize('NFD').replace(/[\\u0300-\\u036f]/g, '')\n    .toLowerCase()\n    .replace(/[^a-z]/g, '');\n\n  let decision = '';\n  if (yesWords.includes(firstWord)) decision = 'approved';\n  if (noWords.includes(firstWord)) decision = 'rejected';\n\n  // Anything else is ignored. The preview itself starts with \"Reply\", so it never counts.\n  if (decision === '') continue;\n\n  results.push({ json: { threadId: message.threadId, decision: decision } });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "373c74a8-c08c-4d3c-b75e-04b2671fa89c",
+      "name": "Read Decision"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 5,
+              "unit": "minutes"
+            }
+          ]
+        },
+        "filters": {
+          "includeSpamTrash": false,
+          "q": "subject:\"APPROVAL NEEDED\" from:your.address@example.com"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1cb9f23c-4afe-4d0c-9cb6-d3862d3fa09c",
+      "name": "Watch Approval Replies",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "rAIetPAij5dLLs5q",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "LczFRLIS4rxozb6s",
+          "mode": "list",
+          "cachedResultName": "AI Job Hunter Leads",
+          "cachedResultUrl": "/projects/ZiRZk4hHlqiD6MtC/datatables/LczFRLIS4rxozb6s"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "approvalThreadId",
+              "keyValue": "={{ $json.threadId }}"
+            },
+            {
+              "keyName": "status",
+              "keyValue": "awaiting approval"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "={{ $json.decision }}",
+            "statusReason": "={{ $json.decision === 'rejected' ? 'rejected by me' : '' }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "companyName",
+              "displayName": "companyName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "websiteUrl",
+              "displayName": "websiteUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "domain",
+              "displayName": "domain",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "tag",
+              "displayName": "tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "sector",
+              "displayName": "sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "contactName",
+              "displayName": "contactName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "contactEmail",
+              "displayName": "contactEmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "emailSourceUrl",
+              "displayName": "emailSourceUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "emailVerified",
+              "displayName": "emailVerified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "jobOfferTitle",
+              "displayName": "jobOfferTitle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "jobOfferUrl",
+              "displayName": "jobOfferUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "approachReasons",
+              "displayName": "approachReasons",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "companyFacts",
+              "displayName": "companyFacts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "contactFacts",
+              "displayName": "contactFacts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "quality",
+              "displayName": "quality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "qualityReason",
+              "displayName": "qualityReason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "statusReason",
+              "displayName": "statusReason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "sentAt",
+              "displayName": "sentAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "language",
+              "displayName": "language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "emailSubject",
+              "displayName": "emailSubject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "emailBody",
+              "displayName": "emailBody",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "approvalThreadId",
+              "displayName": "approvalThreadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {},
+        "matchType": "allConditions"
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        0
+      ],
+      "id": "68daa88f-b5a4-48bb-85be-43fa79d49b7b",
+      "name": "Save Decision"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Read Decision": {
+      "main": [
+        [
+          {
+            "node": "Save Decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Watch Approval Replies": {
+      "main": [
+        [
+          {
+            "node": "Read Decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "53d1ef77-064e-46b4-a6af-a4b67ea37b15",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"
+  },
+  "nodeGroups": [],
+  "id": "eTweUCuXbTABvWza",
+  "tags": []
+}

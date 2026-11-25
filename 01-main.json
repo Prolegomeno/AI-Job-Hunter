@@ -1,0 +1,1064 @@
+{
+  "name": "AI Job Hunter - Main",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        16,
+        -48
+      ],
+      "id": "2339b545-df7b-464e-870d-57e9b4721f30",
+      "name": "Start Manually"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "JgmEAX3L7Vytj9OR",
+          "mode": "list",
+          "cachedResultName": "AI job Hunter Settings",
+          "cachedResultUrl": "/projects/ZiRZk4hHlqiD6MtC/datatables/JgmEAX3L7Vytj9OR"
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        -144
+      ],
+      "id": "212842ab-c83f-4acc-a5a2-11ae62e81463",
+      "name": "Get Settings"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "idedroJbtBciAEXU",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/idedroJbtBciAEXU",
+          "cachedResultName": "AI Job Hunter - Get New Leads"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "discoveryPrompt": "={{ $json.discoveryPrompt }}",
+            "tag": "={{ $json.tag }}"
+          },
+          "matchingColumns": [
+            "data"
+          ],
+          "schema": [
+            {
+              "id": "discoveryPrompt",
+              "displayName": "discoveryPrompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "tag",
+              "displayName": "tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        912,
+        -144
+      ],
+      "id": "a9851f41-fb95-4a24-b193-3631d251d17e",
+      "name": "Get New Leads",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 4
+          },
+          "conditions": [
+            {
+              "id": "35d2aa8d-b25e-4f3c-9206-0efb258cc485",
+              "leftValue": "={{ $json.runIt }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.4,
+      "position": [
+        464,
+        -144
+      ],
+      "id": "0d1dae9e-26cc-499b-abab-11705b702629",
+      "name": "Keep Active Tags"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "2G0xcXzMFqCO5N9F",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/2G0xcXzMFqCO5N9F",
+          "cachedResultName": "AI Job Hunter - Deterministic Filter"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "Data"
+          ],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        1136,
+        -144
+      ],
+      "id": "6d58dcac-9dd3-485e-aaab-0a16b3fbbb00",
+      "name": "Flag Rejected Leads"
+    },
+    {
+      "parameters": {
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "domain",
+              "field2": "domain"
+            }
+          ]
+        },
+        "resolve": "preferInput2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.compareDatasets",
+      "typeVersion": 2.3,
+      "position": [
+        2256,
+        -80
+      ],
+      "id": "943b7203-dc22-4bc7-b355-9f3d2076f391",
+      "name": "Compare Leads"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "TDOI5sLrSKdOhkaW",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/TDOI5sLrSKdOhkaW",
+          "cachedResultName": "AI Job Hunter - Rate Leads"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "Data"
+          ],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.4,
+      "position": [
+        480,
+        400
+      ],
+      "id": "8e95d42b-ef3f-4bef-8206-89101c091ab2",
+      "name": "Rate New Leads"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "LczFRLIS4rxozb6s",
+          "mode": "list",
+          "cachedResultName": "AI Job Hunter Leads",
+          "cachedResultUrl": "/projects/ZiRZk4hHlqiD6MtC/datatables/LczFRLIS4rxozb6s"
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        144
+      ],
+      "id": "1af9f53f-882a-4145-9937-29b23ba9638d",
+      "name": "Get Known Leads",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 4
+          },
+          "conditions": [
+            {
+              "id": "656ecdcf-baf8-463d-b8b2-a9da04ef1fa5",
+              "leftValue": "={{ $json.domain }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.4,
+      "position": [
+        1808,
+        144
+      ],
+      "id": "b535f3d7-260b-445a-ad88-c65b11cf710b",
+      "name": "Keep Saved Rows"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "status"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        -144
+      ],
+      "id": "46003f37-c5a4-4b26-a3f8-7a16188376cd",
+      "name": "Put Found Leads First"
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "domain",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        1808,
+        -144
+      ],
+      "id": "016b28d7-ecaa-47f8-83a6-c43d9d67bca7",
+      "name": "Keep One Lead Per Domain"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "LczFRLIS4rxozb6s",
+          "mode": "list",
+          "cachedResultName": "AI Job Hunter Leads",
+          "cachedResultUrl": "/projects/ZiRZk4hHlqiD6MtC/datatables/LczFRLIS4rxozb6s"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "emailVerified": false
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "companyName",
+              "displayName": "companyName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "websiteUrl",
+              "displayName": "websiteUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "domain",
+              "displayName": "domain",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "tag",
+              "displayName": "tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "sector",
+              "displayName": "sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "contactName",
+              "displayName": "contactName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "contactEmail",
+              "displayName": "contactEmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "emailSourceUrl",
+              "displayName": "emailSourceUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "emailVerified",
+              "displayName": "emailVerified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "jobOfferTitle",
+              "displayName": "jobOfferTitle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "jobOfferUrl",
+              "displayName": "jobOfferUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "approachReasons",
+              "displayName": "approachReasons",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "companyFacts",
+              "displayName": "companyFacts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "contactFacts",
+              "displayName": "contactFacts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "quality",
+              "displayName": "quality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "qualityReason",
+              "displayName": "qualityReason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "statusReason",
+              "displayName": "statusReason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "sentAt",
+              "displayName": "sentAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "language",
+              "displayName": "language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        2544,
+        -96
+      ],
+      "id": "593f878e-40f4-4c35-ba89-683626929f7d",
+      "name": "Insert New Leads"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "LczFRLIS4rxozb6s",
+          "mode": "list",
+          "cachedResultName": "AI Job Hunter Leads",
+          "cachedResultUrl": "/projects/ZiRZk4hHlqiD6MtC/datatables/LczFRLIS4rxozb6s"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "domain",
+              "keyValue": "={{ $json.domain }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "quality": "={{ $json.quality }}",
+            "qualityReason": "={{ $json.qualityReason }}",
+            "status": "={{ $json.quality === 'Reject' ? 'rejected' : 'classified' }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "companyName",
+              "displayName": "companyName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "websiteUrl",
+              "displayName": "websiteUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "domain",
+              "displayName": "domain",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "tag",
+              "displayName": "tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "sector",
+              "displayName": "sector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "contactName",
+              "displayName": "contactName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "contactEmail",
+              "displayName": "contactEmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "emailSourceUrl",
+              "displayName": "emailSourceUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "emailVerified",
+              "displayName": "emailVerified",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "jobOfferTitle",
+              "displayName": "jobOfferTitle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "jobOfferUrl",
+              "displayName": "jobOfferUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "approachReasons",
+              "displayName": "approachReasons",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "companyFacts",
+              "displayName": "companyFacts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "contactFacts",
+              "displayName": "contactFacts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "quality",
+              "displayName": "quality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "qualityReason",
+              "displayName": "qualityReason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "statusReason",
+              "displayName": "statusReason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "sentAt",
+              "displayName": "sentAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        704,
+        400
+      ],
+      "id": "f0943797-8eab-41cd-976c-1d2700c1e34b",
+      "name": "Save Ratings"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 4
+          },
+          "conditions": [
+            {
+              "id": "5d5f91a1-d7ee-40fb-99f7-2ffb894a9020",
+              "leftValue": "={{ $json.domain }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.4,
+      "position": [
+        1360,
+        -144
+      ],
+      "id": "be4372be-bc83-4a5f-8f6f-c2ad1f86e313",
+      "name": "Keep Leads With Domain"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "LczFRLIS4rxozb6s",
+          "mode": "list",
+          "cachedResultName": "AI Job Hunter Leads",
+          "cachedResultUrl": "/projects/ZiRZk4hHlqiD6MtC/datatables/LczFRLIS4rxozb6s"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "status",
+              "keyValue": "found"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        288,
+        400
+      ],
+      "id": "42d8e969-79c3-4527-a78f-5dffee00ca8c",
+      "name": "Get Unrated Leads"
+    },
+    {
+      "parameters": {
+        "content": "Must stay BELOW the insert branch. Execution order v1 runs the upper branch first, so leads researched in this run are already saved.",
+        "height": 96,
+        "width": 384,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        288,
+        272
+      ],
+      "id": "2d6d3899-7e33-4c8d-8f8b-8f01483c3132",
+      "name": "Warning"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pick one random value from a list written as text separated by semicolons\nfunction pickOne(text) {\n  const values = String(text || '').split(';').map(v => v.trim()).filter(v => v !== '');\n  if (values.length === 0) return '';\n  return values[Math.floor(Math.random() * values.length)];\n}\n\nconst template = String($json.discoveryPrompt);\nconst region = pickOne($json.regions);\nconst sector = pickOne($json.sectors);\n\n// Stop if the template needs a value that the lists do not provide\nif (template.includes('{region}') && region === '') throw new Error('regions is empty for tag ' + $json.tag);\nif (template.includes('{sector}') && sector === '') throw new Error('sectors is empty for tag ' + $json.tag);\n\n// Fill the blanks in the template\nconst prompt = template.replaceAll('{region}', region).replaceAll('{sector}', sector);\n\nreturn { json: { ...$json, discoveryPrompt: prompt } };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        688,
+        -144
+      ],
+      "id": "bfb57a10-b94f-4e2b-ad39-12c422c1c4fd",
+      "name": "Fill Discovery Prompt"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start Manually": {
+      "main": [
+        [
+          {
+            "node": "Get Settings",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Known Leads",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Unrated Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Settings": {
+      "main": [
+        [
+          {
+            "node": "Keep Active Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keep Active Tags": {
+      "main": [
+        [
+          {
+            "node": "Fill Discovery Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get New Leads": {
+      "main": [
+        [
+          {
+            "node": "Flag Rejected Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flag Rejected Leads": {
+      "main": [
+        [
+          {
+            "node": "Keep Leads With Domain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare Leads": {
+      "main": [
+        [
+          {
+            "node": "Insert New Leads",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [],
+        []
+      ]
+    },
+    "Rate New Leads": {
+      "main": [
+        [
+          {
+            "node": "Save Ratings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Known Leads": {
+      "main": [
+        [
+          {
+            "node": "Keep Saved Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keep Saved Rows": {
+      "main": [
+        [
+          {
+            "node": "Compare Leads",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Put Found Leads First": {
+      "main": [
+        [
+          {
+            "node": "Keep One Lead Per Domain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keep One Lead Per Domain": {
+      "main": [
+        [
+          {
+            "node": "Compare Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert New Leads": {
+      "main": [
+        []
+      ]
+    },
+    "Keep Leads With Domain": {
+      "main": [
+        [
+          {
+            "node": "Put Found Leads First",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Unrated Leads": {
+      "main": [
+        [
+          {
+            "node": "Rate New Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fill Discovery Prompt": {
+      "main": [
+        [
+          {
+            "node": "Get New Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "89f39fdf-c1c0-4424-8ffe-86da76f71cc1",
+  "meta": {
+    "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"
+  },
+  "nodeGroups": [],
+  "id": "1k5QsYxO6jLuqms4",
+  "tags": []
+}

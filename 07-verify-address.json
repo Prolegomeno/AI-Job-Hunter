@@ -1,0 +1,124 @@
+{
+  "name": "AI Job Hunter - Verify Address",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        -96
+      ],
+      "id": "b49e4e33-9e02-4569-ac56-6d4ee854a2c7",
+      "name": "Receive Leads"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// The page where the address was seen must be a normal public web page.\n// This step only checks that the address is not hallucinated, so any public site is fine.\nconst lead = $json;\nconst pageUrl = String(lead.emailSourceUrl || '').trim();\n\n// Take the host name: the text right after \"http://\" or \"https://\".\n// \"@\" is not allowed, so tricks like \"https://x@127.0.0.1/\" find no host at all.\nconst match = pageUrl.match(/^https?:\\/\\/([^\\/?#:@]+)(?=[\\/?#:]|$)/i);\nconst host = match ? match[1].toLowerCase() : '';\n\n// Only letters, digits, dots and hyphens\nconst isPlainName = /^[a-z0-9.-]+$/.test(host);\n\n// Must end in a real ending made of letters (\".com\", \".es\"). This blocks numeric addresses of any kind.\nconst hasRealEnding = /\\.[a-z]{2,63}$/.test(host);\n\n// Block local names (the internal network)\nconst isLocal = host.endsWith('.localhost') || host.endsWith('.local') || host.endsWith('.internal');\n\nconst isSafe = isPlainName && hasRealEnding && !isLocal;\n\n// An empty pageUrl means: do not download anything\nreturn { json: { ...lead, pageUrl: isSafe ? pageUrl : '' } };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        -96
+      ],
+      "id": "d1bc3876-e6c2-4244-8599-f0a53e254ca4",
+      "name": "Prepare Page Check"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.pageUrl }}",
+        "options": {
+          "redirect": {
+            "redirect": {
+              "followRedirects": false
+            }
+          },
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        448,
+        -96
+      ],
+      "id": "93815550-ac20-4d45-a260-e5ee4542ef18",
+      "name": "Fetch Source Page",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// The lead as it was prepared, and the page text (empty if the page could not be read)\nconst lead = $('Prepare Page Check').item.json;\nconst page = String($json.data || '').toLowerCase();\nconst email = String(lead.contactEmail || '').trim().toLowerCase();\n\n// The address counts as verified only if it is written on the cited page\nconst verified = email !== '' && page !== '' && page.includes(email);\n\n// Remove the helper field and return the lead\nconst { pageUrl, ...rest } = lead;\nreturn { json: { ...rest, emailVerified: verified } };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        -96
+      ],
+      "id": "66569904-cb23-4b88-8b65-7eeb6d8ee20c",
+      "name": "Check Address On Page"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Receive Leads": {
+      "main": [
+        [
+          {
+            "node": "Prepare Page Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Page Check": {
+      "main": [
+        [
+          {
+            "node": "Fetch Source Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Source Page": {
+      "main": [
+        [
+          {
+            "node": "Check Address On Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "c8d6869c-7706-4931-8bfb-5c410b4728ea",
+  "meta": {
+    "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"
+  },
+  "nodeGroups": [],
+  "id": "1vgAgu1tHDhsapP8",
+  "tags": []
+}

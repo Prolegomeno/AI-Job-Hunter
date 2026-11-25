@@ -1,0 +1,61 @@
+{
+  "name": "AI Job Hunter - Deterministic Filter",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "bd898734-cf94-4523-883a-c29bca7ce940",
+      "name": "Receive Leads"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Domains that are job boards, social networks or directories, not company websites\nconst notCompanyDomains = [\n  'linkedin.com', 'indeed.com', 'infojobs.net', 'glassdoor.com', 'facebook.com',\n  'instagram.com', 'twitter.com', 'x.com', 'youtube.com', 'wikipedia.org'\n];\n\n// Addresses that nobody reads\nconst unusableStarts = ['noreply', 'no-reply', 'donotreply', 'do-not-reply'];\n\n// Turn a web address into a plain domain, or an empty text if it is not valid\nfunction getDomain(address) {\n  // Take the text between \"http://\" or \"https://\" and the next \"/\", \"?\", \"#\" or \":\"\n  const match = String(address || '').trim().match(/^https?:\\/\\/([^\\/?#:]+)/i);\n  if (!match) return '';\n  const host = match[1].toLowerCase();\n  if (!host.includes('.')) return '';\n  return host.replace(/^www\\./, '');\n}\n\nconst lead = $json;\nconst domain = getDomain(lead.websiteUrl);\nlet email = String(lead.contactEmail || '').trim().toLowerCase();\nlet emailSource = String(lead.emailSourceUrl || '').trim();\n\n// An address is kept only if it looks valid, someone reads it,\n// and we know the page where it was seen.\n// Otherwise we clear it (with its source), and the research stage looks for a better one.\n// A missing address never rejects the lead: Verify Address does that later if research finds nothing.\nconst looksValid = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);\nconst isReadable = !unusableStarts.some(s => email.startsWith(s));\nconst hasSource = getDomain(emailSource) !== '';\nif (!(looksValid && isReadable && hasSource)) {\n  email = '';\n  emailSource = '';\n}\n\n// Run the checks on the company in order. The first one that fails gives the reason.\nlet reason = '';\nif (domain === '') {\n  reason = 'no website';\n} else if (notCompanyDomains.some(d => domain === d || domain.endsWith('.' + d))) {\n  reason = 'not a company website';\n} else if (lead.language !== 'Spanish' && lead.language !== 'English') {\n  // The writer only knows these two languages\n  reason = 'invalid language';\n}\n\n// Return the same lead plus the fields this step is responsible for\nreturn {\n  json: {\n    ...lead,\n    contactEmail: email,\n    emailSourceUrl: emailSource,\n    domain: domain,\n    status: reason === '' ? 'found' : 'rejected',\n    statusReason: reason,\n    emailVerified: false\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "339e3145-0a25-4e51-8356-09344852484e",
+      "name": "Check Lead Rules"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Receive Leads": {
+      "main": [
+        [
+          {
+            "node": "Check Lead Rules",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "506b9b2b-80f8-4fae-a4c3-20f3c84fbb0e",
+  "meta": {
+    "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"
+  },
+  "nodeGroups": [],
+  "id": "2G0xcXzMFqCO5N9F",
+  "tags": []
+}

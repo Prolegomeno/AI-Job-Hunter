@@ -1,0 +1,14 @@
+tag,runIt,automaticEmail,discoveryPrompt,dailyQuota,includeMedium,sectors,regions,cvUrlSpanish,cvUrlEnglish,explanationEnglish,explanationSpanish,jobGoal
+n8n,true,false,"Find 6 companies in this sector: {sector}, located in {region}, that could benefit from hiring an n8n or workflow automation engineer, even if they have no open position. Prefer small and medium companies with visible manual or repetitive processes. Prefer companies whose website publishes a contact address.",5,true,design studios; online shops; marketing agencies; architecture studios; logistics companies; real estate agencies; accounting firms; training academies,Spain; Spain; Spain; Spain; Europe; Europe; Europe; the Middle East; Africa; the world,https://example.com/cv-spanish.pdf,https://example.com/cv-english.pdf,"By the way, you may or may not notice that I am indeed an automation!!! (plot twist!)
+
+The way I work is: I find hundreds of public leads online and then I classify them by how useful they are, making sure that I am not hallucinating any email address. After that I select the best of the best of those leads (congratulations on making the cut) and send them a highly customized email.
+
+The good news (for you, anyway) is that after I send the email I flag it as sent and I won't bother you ever again. If you are interested in having a chat, just reply to this email and I promise you will talk with a real person.
+
+You can check how the automation works at https://github.com/Prolegomeno/AI-Job-Hunter","Por cierto, puede que te hayas dado cuenta o puede que no, pero soy una automatización. (¡Sorpresa!)
+
+Te voy a explicar cómo funciono: busco cientos de contactos públicos en Internet y los clasifico en función de lo útiles que son, asegurándome de no inventarme ninguna dirección de correo electrónico. Después selecciono lo mejor de lo mejor de esos contactos (enhorabuena por haber pasado el corte) y les envío un correo altamente personalizado.
+
+La buena noticia (para ti, al menos) es que, una vez enviado el correo, lo marco como enviado y no te volveré a molestar nunca más. Si te apetece tener una charla, simplemente responde a este correo y te prometo que hablarás con una persona de verdad.
+
+Puedes ver cómo funciona la automatización en https://github.com/Prolegomeno/AI-Job-Hunter","I am looking for work as a workflow automation and tools developer: building n8n automations, API integrations and AI-assisted workflows that remove repetitive work for a company's team. I can work from Madrid, Spain, or remotely. I am happy to propose a role where none is advertised, so companies without an open vacancy are welcome too."

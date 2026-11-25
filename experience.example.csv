@@ -1,0 +1,7 @@
+category,title,period,text
+summary,Profile,,"Operations specialist turned automation developer. Builds workflows that connect the tools a small team already uses, so information is entered once and moves on by itself."
+skills,Workflow automation,,"n8n, sub-workflows, error handling, webhooks, scheduled jobs."
+skills,Integrations,,"Gmail, Google Sheets, Shopify, WordPress, OpenAI."
+project,Order follow-up for an online shop,,Built an automation that sends customers a shipping update when an order leaves the warehouse and alerts the team when a delivery is late. It replaced a daily manual check of every open order.
+job,"Operations coordinator, Example Logistics",2019 - 2024,Coordinated daily deliveries for a team of twelve drivers. Introduced shared spreadsheets and checklists that cut missed deliveries.
+languages,Languages,,"English (native), Spanish (fluent)."
