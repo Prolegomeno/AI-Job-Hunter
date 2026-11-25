@@ -55,6 +55,7 @@
           "cachedResultName": "AI Job Hunter Leads",
           "cachedResultUrl": "/projects/ZiRZk4hHlqiD6MtC/datatables/LczFRLIS4rxozb6s"
         },
+        "matchType": "allConditions",
         "filters": {
           "conditions": [
             {
@@ -319,8 +320,7 @@
           "attemptToConvertTypes": false,
           "convertFieldsToString": false
         },
-        "options": {},
-        "matchType": "allConditions"
+        "options": {}
       },
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
@@ -330,6 +330,22 @@
       ],
       "id": "68daa88f-b5a4-48bb-85be-43fa79d49b7b",
       "name": "Save Decision"
+    },
+    {
+      "parameters": {
+        "content": "## Approvals\nReads my replies to the preview emails and approves or rejects the lead.\n\n- Reply \"yes\" (or \"sí\", \"ok\", \"vale\") to approve, \"no\" to reject. Only the first word counts.\n- Only replies from my own address count, only inside the thread the preview started, and only for a lead still waiting for approval.\n- Set your address in Read Decision and in the search of Watch Approval Replies.\n- Must be published, so it can check the inbox every five minutes.",
+        "height": 224,
+        "width": 720,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -352
+      ],
+      "id": "6b07c164-abfb-4a3a-b5e6-8dff6e264b14",
+      "name": "Explain Approvals"
     }
   ],
   "pinData": {},
@@ -365,7 +381,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "53d1ef77-064e-46b4-a6af-a4b67ea37b15",
+  "versionId": "c93e76be-01f5-4297-9ba9-daee7d5384e2",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"

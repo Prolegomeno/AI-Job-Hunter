@@ -1,5 +1,5 @@
 {
-  "name": "AI Job Hunter - Main",
+  "name": "AI Job Hunter - Discovery",
   "nodes": [
     {
       "parameters": {},
@@ -843,22 +843,6 @@
     },
     {
       "parameters": {
-        "content": "Must stay BELOW the insert branch. Execution order v1 runs the upper branch first, so leads researched in this run are already saved.",
-        "height": 96,
-        "width": 384,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        288,
-        272
-      ],
-      "id": "2d6d3899-7e33-4c8d-8f8b-8f01483c3132",
-      "name": "Warning"
-    },
-    {
-      "parameters": {
         "jsCode": "// Pick one random value from a list written as text separated by semicolons\nfunction pickOne(text) {\n  const values = String(text || '').split(';').map(v => v.trim()).filter(v => v !== '');\n  if (values.length === 0) return '';\n  return values[Math.floor(Math.random() * values.length)];\n}\n\nconst template = String($json.discoveryPrompt);\nconst region = pickOne($json.regions);\nconst sector = pickOne($json.sectors);\n\n// Stop if the template needs a value that the lists do not provide\nif (template.includes('{region}') && region === '') throw new Error('regions is empty for tag ' + $json.tag);\nif (template.includes('{sector}') && sector === '') throw new Error('sectors is empty for tag ' + $json.tag);\n\n// Fill the blanks in the template\nconst prompt = template.replaceAll('{region}', region).replaceAll('{sector}', sector);\n\nreturn { json: { ...$json, discoveryPrompt: prompt } };"
       },
       "type": "n8n-nodes-base.code",
@@ -869,6 +853,38 @@
       ],
       "id": "bfb57a10-b94f-4e2b-ad39-12c422c1c4fd",
       "name": "Fill Discovery Prompt"
+    },
+    {
+      "parameters": {
+        "content": "## Discovery\nFinds new companies that could use an automation engineer, and rates them.\n\n1. Picks a random sector and region from the Settings table and asks a search model for companies.\n2. Filters them with plain rules: a real company website, not a job board or social network, a language the writer knows.\n3. Skips every company already in the Leads table, so nobody is contacted twice.\n4. Saves the new leads, then rates every unrated lead as High, Medium, Low or Reject.\n\nA rating that fails is simply retried on the next run.\n\nGitHub: https://github.com/Prolegomeno/AI-Job-Hunter",
+        "height": 288,
+        "width": 784,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        -544
+      ],
+      "id": "fcf0d6f2-61a7-4686-8cfb-dc50e69d9dae",
+      "name": "Explain Discovery"
+    },
+    {
+      "parameters": {
+        "content": "Keep this order on the canvas: new leads on top, known leads in the middle, rating at the bottom. Execution order v1 runs the upper branch first, so new leads are saved before they are rated.",
+        "height": 96,
+        "width": 464,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        288,
+        272
+      ],
+      "id": "2d6d3899-7e33-4c8d-8f8b-8f01483c3132",
+      "name": "Keep Branch Order"
     }
   ],
   "pinData": {},
@@ -1054,7 +1070,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "89f39fdf-c1c0-4424-8ffe-86da76f71cc1",
+  "versionId": "338d59ca-298c-466a-a5c6-14e37739ce8c",
   "meta": {
     "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"
   },

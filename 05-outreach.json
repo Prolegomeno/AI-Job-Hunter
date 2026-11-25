@@ -478,22 +478,6 @@
     },
     {
       "parameters": {
-        "content": "Branches run top to bottom: research, then writing, then sending. Keep this order on the canvas.",
-        "height": 112,
-        "width": 688,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        48,
-        -384
-      ],
-      "id": "8e39cf61-3051-4a51-b53e-b64881142f4e",
-      "name": "Warning"
-    },
-    {
-      "parameters": {
         "workflowId": {
           "__rl": true,
           "value": "NTuOSjOsP7aPta5E",
@@ -549,7 +533,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        672,
+        928,
         592
       ],
       "id": "c59fcdb6-11c6-44c8-8bdf-2851107e6e9d",
@@ -877,7 +861,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.5,
       "position": [
-        896,
+        1472,
         592
       ],
       "id": "319ee2a7-5eb5-48f8-b79c-5aaf561641b9",
@@ -904,7 +888,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        1120,
+        1696,
         592
       ],
       "id": "630de0e5-9228-46c8-b513-4e27dea9c86c",
@@ -1183,7 +1167,7 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        1584,
+        2160,
         656
       ],
       "id": "dbc32098-37b1-4564-abec-47047beb1f49",
@@ -1464,7 +1448,7 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        1584,
+        2160,
         432
       ],
       "id": "01faea77-f789-40dc-af0a-3382b9c62e53",
@@ -1498,11 +1482,58 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.4,
       "position": [
-        1344,
+        1920,
         528
       ],
       "id": "8560d387-6c5c-40bf-9dbf-fe598d95c6f2",
       "name": "Route After Sending"
+    },
+    {
+      "parameters": {
+        "content": "## Outreach\nTurns the best leads into personal emails, and sends them only after I approve them.\n\n1. Picks the best rated leads that fit in the daily quota.\n2. Researches each company on its own website. Every fact keeps the page it came from.\n3. Downloads the page where the email address was found and checks it is really written there. An address that cannot be proven is never used.\n4. Writes a short email in my voice, using only the verified facts and my real experience, then checks it with code.\n5. Sends me a preview with the CV attached. Nothing goes to a company until I reply \"yes\".\n6. Sends the approved emails and marks each company as contacted.\n\nA separate small workflow, Approvals, reads my \"yes\" and \"no\" replies every five minutes.\n\nGitHub: https://github.com/Prolegomeno/AI-Job-Hunter",
+        "height": 368,
+        "width": 1008,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        -736
+      ],
+      "id": "5beeef13-eee5-4327-a269-a55b989aa000",
+      "name": "Explain Outreach"
+    },
+    {
+      "parameters": {
+        "content": "Keep this order on the canvas: research on top, writing in the middle, sending at the bottom. Execution order v1 runs the upper branch first, so leads researched in this run are written and sent in the same run.",
+        "height": 80,
+        "width": 688,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        -288
+      ],
+      "id": "8e39cf61-3051-4a51-b53e-b64881142f4e",
+      "name": "Keep Branch Order"
+    },
+    {
+      "parameters": {
+        "content": "## Test mode\nIn Prepare Emails, TEST_MODE = true sends every email to MY_ADDRESS instead of the company, and marks the lead \"test sent\" instead of \"sent\".\nSet your own address in MY_ADDRESS. Change TEST_MODE to false only after a full test.",
+        "height": 288,
+        "width": 416
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        784,
+        432
+      ],
+      "id": "8663d029-c448-4fd7-8dc3-fce487cc6f23",
+      "name": "Explain Test Mode"
     }
   ],
   "pinData": {},
@@ -1703,7 +1734,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "526b12a2-b76e-4bda-b527-12e7cb35af86",
+  "versionId": "8cf61755-67fa-48eb-879e-850a4393f86c",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"

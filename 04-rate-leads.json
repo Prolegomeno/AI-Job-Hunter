@@ -92,6 +92,21 @@
       "id": "3c5ad5ba-d489-41ff-96b4-eab137de6efc",
       "name": "Add Rating To Lead",
       "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "content": "## Rating\nA cheap model rates each lead as High, Medium, Low or Reject, with one sentence of reason. Code checks the answer is one of those four values. Anything else counts as a failed rating and is retried on the next run.",
+        "width": 624,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        32,
+        -240
+      ],
+      "id": "f0595bb9-66f8-42cd-9363-60be8d0b3556",
+      "name": "Explain Rating"
     }
   ],
   "pinData": {},
@@ -149,7 +164,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "1cac11f5-27b5-421b-b1d3-b7d6caeb38ab",
+  "versionId": "43913ed7-23ec-4969-b99f-514c6bc0d1dc",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"

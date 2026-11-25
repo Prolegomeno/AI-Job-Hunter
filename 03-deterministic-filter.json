@@ -27,6 +27,21 @@
       ],
       "id": "339e3145-0a25-4e51-8356-09344852484e",
       "name": "Check Lead Rules"
+    },
+    {
+      "parameters": {
+        "content": "## Filter rules\nPlain code, no AI. Rejects leads without a real company website, job boards and social networks, and languages the writer does not know. An unusable email address is not a reason to reject: it is cleared, and research looks for a better one.\n",
+        "width": 560,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        -208
+      ],
+      "id": "bccfc471-3a0b-4122-abee-6525d21759ae",
+      "name": "Explain Filter Rules"
     }
   ],
   "pinData": {},
@@ -51,7 +66,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "506b9b2b-80f8-4fae-a4c3-20f3c84fbb0e",
+  "versionId": "629682cb-d615-4a90-b8fe-bd25abe9a392",
   "meta": {
     "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"
   },

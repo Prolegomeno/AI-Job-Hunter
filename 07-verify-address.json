@@ -68,6 +68,22 @@
       ],
       "id": "66569904-cb23-4b88-8b65-7eeb6d8ee20c",
       "name": "Check Address On Page"
+    },
+    {
+      "parameters": {
+        "content": "## Address check\nDownloads the exact page where the address was found and checks the address is written on it. This is what stops invented addresses.\nFor safety it only downloads normal public pages: no internal or numeric addresses, no hidden user names in the address, and no redirects.",
+        "height": 176,
+        "width": 784,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -384
+      ],
+      "id": "fa5526bf-2f79-40a1-9aaa-4601e24227fc",
+      "name": "Explain Address Check"
     }
   ],
   "pinData": {},
@@ -114,7 +130,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "c8d6869c-7706-4931-8bfb-5c410b4728ea",
+  "versionId": "11688c9e-ef66-4b50-a1fc-dea2d9b02e73",
   "meta": {
     "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"
   },

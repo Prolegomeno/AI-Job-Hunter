@@ -18,7 +18,7 @@ I built it for my own job search. If you received an email from it: hello! This 
 
 ```mermaid
 flowchart LR
-    subgraph Main["Main (discovery)"]
+    subgraph Discovery["Discovery"]
         A[Get New Leads] --> B[Deterministic Filter] --> C[(Leads table)]
         C --> D[Rate Leads]
     end
@@ -37,7 +37,7 @@ flowchart LR
 
 | File | Workflow | What it does |
 |---|---|---|
-| `01-main.json` | Main | Discovery: finds, filters, deduplicates, stores and rates leads. |
+| `01-discovery.json` | Discovery | Finds, filters, deduplicates, stores and rates leads. |
 | `02-get-new-leads.json` | Get New Leads | Asks a search model for new companies. |
 | `03-deterministic-filter.json` | Deterministic Filter | Rules in code: website, company domain, language, usable address. |
 | `04-rate-leads.json` | Rate Leads | Rates each lead and validates the rating. |
@@ -102,8 +102,8 @@ You need a self-hosted or cloud n8n with Data Tables, an OpenAI credential and a
    - Approvals → **Watch Approval Replies** (search query)
 5. **Fill in Settings**: your discovery prompt (with `{sector}` and `{region}`), your sector and region lists, links to your CV in each language, your goal, and the optional explanation text added to every email.
 6. **Publish Approvals**, so it can read your replies.
-7. **Test**: run Main, then Outreach, with `TEST_MODE = true` and `automaticEmail` set to `false`. Approve a few previews and run Outreach again.
-8. **Go live**: set `TEST_MODE = false`, then add a Schedule Trigger to Main and to Outreach and publish them.
+7. **Test**: run Discovery, then Outreach, with `TEST_MODE = true` and `automaticEmail` set to `false`. Approve a few previews and run Outreach again.
+8. **Go live**: set `TEST_MODE = false`, then add a Schedule Trigger to Discovery and to Outreach and publish them.
 
 ## Models
 
@@ -119,7 +119,11 @@ Most of the cost is web search, not the models. A daily run of a few emails cost
 
 - Addresses hidden by the website (for example behind a script or a login wall) cannot be verified, so those leads are rejected. This is on purpose: a wrong rejection is cheaper than an email to an invented address.
 - The email writer only knows Spanish and English.
-- Execution order matters in Main and Outreach: their branches must stay in the same top-to-bottom order on the canvas (there is a note in each).
+- Execution order matters in Discovery and Outreach: their branches must stay in the same top-to-bottom order on the canvas (there is a note in each).
+
+## See also
+
+The page about this project on my portfolio is written and kept up to date by another automation of mine, [Living Portfolio](https://github.com/Prolegomeno/living-portfolio).
 
 ## License
 

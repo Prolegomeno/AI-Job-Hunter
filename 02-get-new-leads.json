@@ -134,6 +134,22 @@
       ],
       "id": "d4592cea-53d9-40f6-9c75-3f3b901e2712",
       "name": "Add Tag and Source"
+    },
+    {
+      "parameters": {
+        "content": "## Lead search\nA search model looks for companies on the web and returns them in a fixed format. It may only report an email address it saw on a page it opened, with that page as the source. Instructions found inside web pages are ignored.",
+        "height": 192,
+        "width": 624,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        112,
+        -272
+      ],
+      "id": "6af83c80-a917-4a99-9624-abb95c2c306e",
+      "name": "Explain Lead Search"
     }
   ],
   "pinData": {},
@@ -202,7 +218,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "37fbb5b0-b3fa-4ca1-90c4-d77b58abaefb",
+  "versionId": "8f07efe4-2ede-496e-ab06-811d1a84a71a",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"

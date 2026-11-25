@@ -96,6 +96,22 @@
       ],
       "id": "e00da1b9-b18a-4f66-b5a3-f0b5112819bb",
       "name": "Receive Leads"
+    },
+    {
+      "parameters": {
+        "content": "## Research\nA model with web search reads the company's own pages and writes three to six concrete facts, each ending with the page it came from. It may also find a better contact address or a published job offer. If it finds no facts, the lead is rejected instead of being retried forever.",
+        "height": 176,
+        "width": 720,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        -256
+      ],
+      "id": "50a86236-eafe-4b2b-8ff1-685f129b7527",
+      "name": "Explain Research"
     }
   ],
   "pinData": {},
@@ -153,7 +169,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "04d8f216-8afb-4109-bc0d-85d1619dfda5",
+  "versionId": "076d0e9a-d354-4813-a8c4-cbb5e7accf40",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"

@@ -195,6 +195,21 @@
       ],
       "id": "6ab6985e-4978-490a-943a-459c9cb26053",
       "name": "Check Email"
+    },
+    {
+      "parameters": {
+        "content": "## Writer\nWrites one short email in my voice, in Spanish or English, using only the verified company facts and the rows of my Experience table. Code then checks length, register, placeholders and lists. An email that fails a check is held for review, never sent.",
+        "width": 784,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        432,
+        -272
+      ],
+      "id": "ca325688-3623-4e1f-b619-e16a756db9a7",
+      "name": "Explain Writer"
     }
   ],
   "pinData": {},
@@ -307,7 +322,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "b3b08672-47ae-45ab-a9d6-03c118713884",
+  "versionId": "c7807cac-ccf4-4ec8-bc20-b83615263ffe",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7309fc11f41039fe82326d2200bc156721679faad636d5c3bfdc12d5fa9b3b33"
